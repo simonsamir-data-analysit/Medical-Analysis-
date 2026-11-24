@@ -1,13 +1,12 @@
 # Medical-Analysis-
 
 # Home Healthcare Analytics
-
 **Better Insights, Healthier Decisions**
 
 A SQL and Power BI project that analyzes a healthcare retail chain: 12 stores, 10K loyalty customers, 500K transactions and 534.95M in revenue. I wrote 20+ analytical queries in MySQL, turned them into views, and built a six-page Power BI report with a custom navigation layout.
 
 The dataset is synthetic and used for learning purposes only.
-![Home page](home_page.png) 
+![Home Page](Home_Page.png)
 
 ## Key Metrics
 - Revenue = 534.95M 
@@ -51,8 +50,14 @@ Each Page and Question it answers :
 **Supplies & Inventory** Which items are below reorder level, and how concentrated is the supplier base? 
 **Customer Loyalty** How do the four tiers compare on spending and behavior? 
 **Stores & Region** Which stores beat their regional average, and how productive is each per employee? 
-**Employee Performance** Who are the top performers in each store? 
+**Employee Performance** Who are the top performers in each store?
 
+![Sales Dashboard](Sales_Dashboard.png)
+![Product Dashboard](Product_Dashboard.png)
+![Supplies Dashboard](Supplies_Dashboard.png)
+![Customer Dashboard](Customer_Dashboard.png)
+![Stores_Region Dashboard](Stores_Region_Dashboard.png)
+![Employee Dashboard](Employee_Dashboard.png)
 
 ## Key Findings
  1. Prescription products make up only 14.96% of revenue. About 85% comes from non-prescription items.
@@ -71,14 +76,17 @@ Because the data is synthetic, the distributions are flatter than real data woul
 
 ## Technical Decisions Worth Noting
 
-**Every view is built at one grain** My first version of the stores view joined store-level revenue to a top-5-products table. 
+**Every view is built at one grain** 
+My first version of the stores view joined store-level revenue to a top-5-products table. 
 Each store appeared five times, and the dashboard reported 2.67B instead of 534.95M. 
 I split it into two views, one row per store and one row per store-product, and related them one-to-many in Power BI. 
 The same fix applied to the sales view, where monthly totals were repeated across payment-method rows.
 
-**Aggregates are computed before joining** When joining a parent table (customers) to a child table (sales), averaging a parent column after the join weights it by purchase count. I aggregate sales per customer first, then join.
+**Aggregates are computed before joining** 
+When joining customers (one row each) to sales (many rows per customer), averaging a customer column after the join weights it by purchase count. I aggregate sales per customer first, then join.
 
-**Reconciliation before publishing** I checked every dashboard total against the matching SQL result. 
+**Reconciliation before publishing** 
+I checked every dashboard total against the matching SQL result. 
 That check caught the duplicated revenue, an incorrect aggregation on a card, and a text typed month column that broke the chart's sort order.
 
 ## View and Grain 
